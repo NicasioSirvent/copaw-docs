@@ -703,9 +703,9 @@ copaw logs --follow --level DEBUG | grep telegram
 
 ## Next Steps
 
-- [Configuration Guide](../configuration/README.md) - General CoPaw configuration
-- [Skills Development](../skills/README.md) - Create Telegram-aware skills
-- [Use Cases](../use-cases/BUSINESS-RESEARCH-PERSONAL.md) - Telegram use cases
+- [Configuration Guide](../../configuration/README.md) - General CoPaw configuration
+- [Skills Development](../../skills/README.md) - Create Telegram-aware skills
+- [Use Cases](../../use-cases/BUSINESS-RESEARCH-PERSONAL.md) - Telegram use cases
 
 ---
 
