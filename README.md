@@ -150,19 +150,7 @@ CoPaw is released under the [Apache 2.0 License](LICENSE).
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Ways to Contribute
-- 📝 Write documentation
-- 🔧 Create skills and share with the community
-- 🐛 Report bugs and suggest improvements
-- 💡 Share use cases and best practices
-
----
-
-## 📞 Support
+## 📞 Support & Resources
 
 - **Documentation**: Browse this repository for comprehensive guides
 - **Issues**: Check [GitHub Issues](https://github.com/agentscope-ai/CoPaw/issues) for known problems

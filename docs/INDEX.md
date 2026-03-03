@@ -15,7 +15,6 @@ Complete index of all CoPaw documentation.
 | [Skills](skills/README.md) | Skills development guide |
 | [Use Cases](use-cases/README.md) | Real-world examples |
 | [FAQ](faq/README.md) | Troubleshooting and FAQ |
-| [Contributing](../CONTRIBUTING.md) | How to contribute |
 
 ---
 
@@ -194,17 +193,6 @@ Complete index of all CoPaw documentation.
     - High Memory Usage
   - Getting More Help
 
-### Contributing
-
-- [Contributing Guide](CONTRIBUTING.md)
-  - Code of Conduct
-  - How to Contribute
-  - Documentation Standards
-  - Pull Request Process
-  - Style Guide
-  - Contributing Skills
-  - Reporting Issues
-
 ---
 
 ## File Structure
@@ -212,7 +200,6 @@ Complete index of all CoPaw documentation.
 ```
 copaw-docs/
 ├── README.md                    # Main documentation
-├── CONTRIBUTING.md              # Contribution guidelines
 ├── LICENSE                      # Apache 2.0 License
 ├── .gitignore                   # Git ignore rules
 ├── docs/
@@ -272,7 +259,6 @@ copaw-docs/
 | Create a skill | [Skills Guide](skills/README.md) |
 | Find examples | [Use Cases](use-cases/README.md) |
 | Fix an error | [FAQ](faq/README.md) |
-| Contribute | [Contributing](CONTRIBUTING.md) |
 
 ---
 
