@@ -153,6 +153,7 @@ CoPaw is released under the [Apache 2.0 License](LICENSE).
 ## 📞 Support & Resources
 
 - **Documentation**: Browse this repository for comprehensive guides
+- **Framework Comparison**: [AgentScope vs qwen-agent](docs/AGENTSCOPE-VS-QWEN-AGENT.md) - Understand Alibaba's agent frameworks
 - **Issues**: Check [GitHub Issues](https://github.com/agentscope-ai/CoPaw/issues) for known problems
 - **FAQ**: See [FAQ & Troubleshooting](docs/faq/README.md) for common solutions
 
