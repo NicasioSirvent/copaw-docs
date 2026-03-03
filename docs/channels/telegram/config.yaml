@@ -1,0 +1,581 @@
+# CoPaw Telegram Channel Configuration Templates
+
+Configuration examples for various Telegram deployment scenarios.
+
+---
+
+## Basic Configuration Templates
+
+### 1. Testing Setup (Polling Mode)
+
+**File:** `~/.copaw/config.yaml`
+
+```yaml
+# ============================================
+# CoPaw Telegram Channel - Testing Configuration
+# Mode: Polling (no public IP required)
+# ============================================
+
+channels:
+  telegram:
+    # Required
+    enabled: true
+    bot_token: "YOUR_BOT_TOKEN_HERE"  # Get from @BotFather
+    
+    # Connection
+    mode: "polling"
+    polling_interval: 1.0
+    
+    # Access Control (for testing only!)
+    allow_all_users: true
+    
+    # Message Handling
+    command_prefix: "/"
+    max_message_length: 4096
+    chunk_messages: true
+    parse_mode: "Markdown"
+    
+    # Session
+    session_memory: true
+    session_ttl: 3600
+```
+
+**Quick Start:**
+```bash
+# 1. Get bot token from @BotFather
+# 2. Replace YOUR_BOT_TOKEN_HERE above
+# 3. Start CoPaw
+copaw app
+
+# 4. Test in Telegram
+# Search for your bot and send: /start
+```
+
+---
+
+### 2. Production Setup (Webhook Mode with SSL)
+
+**File:** `~/.copaw/config.yaml`
+
+```yaml
+# ============================================
+# CoPaw Telegram Channel - Production Configuration
+# Mode: Webhook with HTTPS
+# ============================================
+
+channels:
+  telegram:
+    # Required
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"  # Use environment variable
+    
+    # Connection
+    mode: "webhook"
+    webhook_port: 8787
+    webhook_url: "https://copaw.your-domain.com:8787/telegram/callback"
+    
+    # SSL Certificates (required for webhook)
+    ssl_cert: "/etc/letsencrypt/live/your-domain.com/fullchain.pem"
+    ssl_key: "/etc/letsencrypt/live/your-domain.com/privkey.pem"
+    
+    # Access Control
+    allow_all_users: false
+    allow_from:
+      - "123456789"  # Your Telegram user ID
+      - "987654321"  # Other allowed users
+    dm_policy: "pairing"
+    
+    # Group Settings
+    group_policy: "allowlist"
+    group_allow_from:
+      - "-1001234567890"  # Your group ID
+    require_mention: true
+    
+    # Message Handling
+    command_prefix: "/"
+    max_message_length: 4096
+    chunk_messages: true
+    parse_mode: "Markdown"
+    
+    # Session
+    session_memory: true
+    session_ttl: 3600
+    
+    # Advanced
+    timeout: 30
+    retry_limit: 3
+    log_messages: false
+```
+
+**Environment Variables:**
+```bash
+# .env file
+TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
+```
+
+**SSL Setup (Let's Encrypt):**
+```bash
+# Install certbot
+sudo apt install certbot
+
+# Get certificate
+sudo certbot certonly --standalone -d copaw.your-domain.com
+
+# Certificates will be at:
+# /etc/letsencrypt/live/your-domain.com/fullchain.pem
+# /etc/letsencrypt/live/your-domain.com/privkey.pem
+```
+
+---
+
+### 3. Group Chat Bot Configuration
+
+**File:** `~/.copaw/config.yaml`
+
+```yaml
+# ============================================
+# CoPaw Telegram Channel - Group Chat Bot
+# Use case: Team collaboration, community support
+# ============================================
+
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "polling"
+    
+    # Access Control
+    allow_all_users: false
+    
+    # Group Settings
+    group_policy: "allowlist"
+    group_allow_from:
+      - "-1001234567890"  # Main team group
+      - "-1009876543210"  # Support group
+    require_mention: true  # Must @mention bot
+    
+    # Auto-reply in groups (optional)
+    group_auto_reply: false
+    
+    # Message Handling
+    parse_mode: "Markdown"
+    chunk_messages: true
+    
+    # Logging (enable for debugging)
+    log_messages: true
+```
+
+**Get Group ID:**
+```bash
+# 1. Add bot to group
+# 2. Send a message in the group
+# 3. Check CoPaw logs:
+copaw logs --follow | grep telegram
+
+# Look for: "chat_id": "-1001234567890"
+```
+
+**Usage in Group:**
+```
+User: "@CoPawBot What's the weather today?"
+Bot: [Responds with weather info]
+
+User: "Let's have lunch!"  (no mention)
+Bot: [Ignores - require_mention: true]
+```
+
+---
+
+### 4. Public Bot Configuration
+
+**File:** `~/.copaw/config.yaml`
+
+```yaml
+# ============================================
+# CoPaw Telegram Channel - Public Bot
+# Use case: Public AI service, open to all users
+# ============================================
+
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "polling"
+    
+    # Access Control - OPEN TO ALL
+    allow_all_users: true
+    dm_policy: "open"
+    allow_from:
+      - "*"  # Allow all users
+    
+    # Rate Limiting (recommended for public bots)
+    rate_limit:
+      enabled: true
+      messages_per_minute: 10
+      burst_limit: 20
+    
+    # Message Handling
+    parse_mode: "Markdown"
+    chunk_messages: true
+    
+    # Safety
+    content_filter: true
+    blocked_keywords:
+      - "spam"
+      - "abuse"
+    
+    # Logging
+    log_messages: true
+```
+
+**⚠️ Security Warning:**
+- Only use this configuration for public bots
+- Monitor usage closely
+- Implement rate limiting
+- Consider adding CAPTCHA for new users
+
+---
+
+### 5. Enterprise Configuration
+
+**File:** `~/.copaw/config.yaml`
+
+```yaml
+# ============================================
+# CoPaw Telegram Channel - Enterprise Setup
+# Use case: Corporate internal bot
+# ============================================
+
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "webhook"
+    webhook_port: 8787
+    webhook_url: "https://copaw.internal.company.com:8787/telegram/callback"
+    
+    # SSL
+    ssl_cert: "/etc/ssl/certs/company.pem"
+    ssl_key: "/etc/ssl/private/company.pem"
+    
+    # Access Control - Strict
+    allow_all_users: false
+    allow_from:
+      - "123456789"  # CEO
+      - "234567890"  # CTO
+      - "345678901"  # Team leads
+    dm_policy: "allowlist"
+    
+    # Groups - Company only
+    group_policy: "allowlist"
+    group_allow_from:
+      - "-1001111111111"  # Executive team
+      - "-1002222222222"  # Engineering
+      - "-1003333333333"  # Support
+    
+    # Security
+    require_mention: true
+    content_filter: true
+    audit_log: true
+    
+    # Session
+    session_memory: true
+    session_ttl: 7200  # 2 hours
+    
+    # Compliance
+    log_messages: true
+    log_retention_days: 90
+```
+
+---
+
+### 6. Multi-Agent Configuration
+
+**File:** `~/.copaw/config.yaml`
+
+```yaml
+# ============================================
+# CoPaw Telegram Channel - Multi-Agent Setup
+# Use case: Different agents for different purposes
+# ============================================
+
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "polling"
+    allow_all_users: true
+    
+    # Route to different agents based on command
+    routing:
+      rules:
+        - pattern: "/research.*"
+          agent: "research_agent"
+        - pattern: "/code.*"
+          agent: "coding_agent"
+        - pattern: "/write.*"
+          agent: "writing_agent"
+        - pattern: ".*"
+          agent: "main_agent"
+    
+    # Agents
+    agents:
+      main_agent:
+        model: "qwen-max"
+        temperature: 0.7
+      research_agent:
+        model: "qwen-max"
+        temperature: 0.5
+        skills:
+          - web_search
+          - summarization
+      coding_agent:
+        model: "qwen-coder"
+        temperature: 0.3
+        skills:
+          - code_analysis
+          - debugging
+      writing_agent:
+        model: "qwen-max"
+        temperature: 0.8
+        skills:
+          - writing
+          - editing
+```
+
+**Usage:**
+```
+/research What's the latest on quantum computing?
+→ Routes to research_agent
+
+/code Review this Python function
+→ Routes to coding_agent
+
+/write Draft an email to the team
+→ Routes to writing_agent
+
+Hello!
+→ Routes to main_agent
+```
+
+---
+
+## Environment-Specific Configurations
+
+### Development
+
+**File:** `config.dev.yaml`
+
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "dev_bot_token"
+    mode: "polling"
+    allow_all_users: true
+    log_messages: true
+    debug: true
+```
+
+### Staging
+
+**File:** `config.staging.yaml`
+
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "polling"
+    allow_all_users: false
+    allow_from:
+      - "dev_team_ids"
+    log_messages: true
+```
+
+### Production
+
+**File:** `config.prod.yaml`
+
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "webhook"
+    webhook_url: "https://copaw.example.com:8787/telegram/callback"
+    ssl_cert: "/etc/letsencrypt/live/example.com/fullchain.pem"
+    ssl_key: "/etc/letsencrypt/live/example.com/privkey.pem"
+    allow_all_users: false
+    log_messages: false
+```
+
+---
+
+## Docker Configuration
+
+### Docker Compose
+
+**File:** `docker-compose.yml`
+
+```yaml
+version: '3.8'
+
+services:
+  copaw:
+    image: agentscope/copaw:latest
+    container_name: copaw
+    ports:
+      - "8088:8088"  # Web console
+      - "8787:8787"  # Telegram webhook
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/working
+      - ./ssl:/etc/ssl/certs:ro
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY}
+    restart: unless-stopped
+
+  # Optional: Nginx reverse proxy for SSL
+  nginx:
+    image: nginx:alpine
+    container_name: copaw-nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl/certs:ro
+    depends_on:
+      - copaw
+    restart: unless-stopped
+```
+
+### Nginx Configuration
+
+**File:** `nginx.conf`
+
+```nginx
+events {
+    worker_connections 1024;
+}
+
+http {
+    server {
+        listen 443 ssl;
+        server_name copaw.example.com;
+        
+        ssl_certificate /etc/ssl/certs/fullchain.pem;
+        ssl_certificate_key /etc/ssl/certs/privkey.pem;
+        
+        location /telegram/callback {
+            proxy_pass http://copaw:8787;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+}
+```
+
+---
+
+## Complete Configuration Reference
+
+```yaml
+channels:
+  telegram:
+    # === Required ===
+    enabled: true                      # Enable/disable channel
+    bot_token: "TOKEN"                 # Telegram Bot API token
+    
+    # === Connection Mode ===
+    mode: "polling"                    # "polling" or "webhook"
+    
+    # === Polling Settings ===
+    polling_interval: 1.0              # Seconds between polls
+    
+    # === Webhook Settings ===
+    webhook_port: 8787                 # Webhook listener port
+    webhook_url: "https://..."         # Full webhook URL
+    ssl_cert: "/path/to/cert.pem"      # SSL certificate path
+    ssl_key: "/path/to/key.pem"        # SSL private key path
+    
+    # === Access Control ===
+    allow_all_users: false             # Allow all users (testing only!)
+    allow_from:                        # Allowed user IDs
+      - "123456789"
+    dm_policy: "pairing"               # "pairing" | "allowlist" | "open" | "disabled"
+    
+    # === Group Settings ===
+    group_policy: "allowlist"          # "allowlist" | "open"
+    group_allow_from:                  # Allowed group IDs
+      - "-1001234567890"
+    require_mention: true              # Require @mention in groups
+    group_auto_reply: false            # Auto-reply in groups
+    
+    # === Message Handling ===
+    command_prefix: "/"                # Command prefix
+    max_message_length: 4096           # Max message length (Telegram limit)
+    chunk_messages: true               # Auto-split long messages
+    parse_mode: "Markdown"             # "Markdown" | "HTML" | None
+    
+    # === Session Management ===
+    session_memory: true               # Remember conversation context
+    session_ttl: 3600                  # Session timeout (seconds)
+    
+    # === Rate Limiting ===
+    rate_limit:
+      enabled: false                   # Enable rate limiting
+      messages_per_minute: 10          # Max messages per minute
+      burst_limit: 20                  # Max burst messages
+    
+    # === Content Filtering ===
+    content_filter: false              # Enable content filtering
+    blocked_keywords:                  # Blocked keywords
+      - "spam"
+      - "abuse"
+    
+    # === Advanced ===
+    timeout: 30                        # API timeout (seconds)
+    retry_limit: 3                     # Max retry attempts
+    log_messages: false                # Log all messages (debug)
+    debug: false                       # Debug mode
+```
+
+---
+
+## Quick Copy-Paste Templates
+
+### Minimal Testing Config
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "YOUR_TOKEN"
+    mode: "polling"
+    allow_all_users: true
+```
+
+### Production Ready Config
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "webhook"
+    webhook_port: 8787
+    webhook_url: "https://your-domain.com:8787/telegram/callback"
+    ssl_cert: "/etc/letsencrypt/live/your-domain.com/fullchain.pem"
+    ssl_key: "/etc/letsencrypt/live/your-domain.com/privkey.pem"
+    allow_all_users: false
+    allow_from:
+      - "YOUR_USER_ID"
+    dm_policy: "pairing"
+    require_mention: true
+```
+
+---
+
+*Last updated: March 2026*

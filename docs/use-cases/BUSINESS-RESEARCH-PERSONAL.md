@@ -9,6 +9,127 @@ Comprehensive real-world examples organized by category.
 - [🏢 Business Use Cases](#-business-use-cases)
 - [🔬 Research Use Cases](#-research-use-cases)
 - [👤 Personal Use Cases](#-personal-use-cases)
+- [📱 Telegram-Specific Use Cases](#-telegram-specific-use-cases)
+
+---
+
+## 📱 Telegram-Specific Use Cases
+
+### Telegram Bot Deployment Scenarios
+
+#### 1. Telegram Customer Support Bot
+
+**Configuration:**
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "polling"
+    allow_all_users: true
+    dm_policy: "open"
+    
+    # Support-specific settings
+    command_prefix: "/"
+    group_auto_reply: false
+    
+    # Skills for support
+    skills:
+      - ticket_creation
+      - faq_lookup
+      - sentiment_analysis
+```
+
+**Use Case Flow:**
+```
+Customer: "/support My order is delayed"
+         │
+         ▼
+CoPaw: Creates support ticket
+         │
+         ▼
+CoPaw: "🎫 Ticket #12345 created. Our team will respond within 2 hours."
+         │
+         ▼
+Support Team: Gets notification in Telegram group
+```
+
+#### 2. Telegram Team Notification Bot
+
+**Configuration:**
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "webhook"
+    webhook_url: "https://your-domain.com:8787/telegram/callback"
+    
+    # Team-only access
+    allow_all_users: false
+    allow_from:
+      - "123456789"  # Team member 1
+      - "234567890"  # Team member 2
+    dm_policy: "allowlist"
+    
+    # Group notifications
+    group_policy: "allowlist"
+    group_allow_from:
+      - "-1001234567890"  # Team group
+```
+
+**Alert Example:**
+```
+🚨 Production Alert
+
+Service: API Gateway
+Status: DOWN
+Time: 2026-03-03 14:32:15
+
+Impact:
+- 45% of requests failing
+- Estimated affected users: 12,000
+
+Actions:
+[🔍 View Dashboard](link)
+[📞 Call On-Call](tel:+1234567890)
+[✅ Acknowledge](callback)
+```
+
+#### 3. Telegram Content Distribution Bot
+
+**Configuration:**
+```yaml
+channels:
+  telegram:
+    enabled: true
+    bot_token: "${TELEGRAM_BOT_TOKEN}"
+    mode: "polling"
+    
+    # Channel broadcasting
+    broadcast_channels:
+      - "-1001111111111"  # News channel
+      - "-1002222222222"  # Updates channel
+    
+    # Content settings
+    parse_mode: "HTML"
+    chunk_messages: false
+```
+
+**Broadcast Example:**
+```
+📰 Daily Tech News - March 3, 2026
+
+Top Stories:
+• AI breakthrough: New model achieves 95% accuracy
+• Tech stocks rise 3% in early trading
+• New smartphone launched with revolutionary camera
+
+Read more: [Link](url)
+
+━━━━━━━━━━━━━━━━
+Forwarded from: Tech News Daily
+```
 
 ---
 

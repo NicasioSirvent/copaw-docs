@@ -1,0 +1,14 @@
+# CoPaw Telegram Channel Dependencies
+
+# Core Telegram library (Python equivalent of grammY)
+python-telegram-bot==20.7
+
+# Optional: For faster performance
+uvloop>=0.17.0; platform_system != "Windows"
+
+# Optional: For webhook with SSL
+aiohttp>=3.8.0
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0

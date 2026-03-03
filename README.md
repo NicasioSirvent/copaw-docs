@@ -17,7 +17,7 @@ CoPaw is not just another chatbot—it's a **comprehensive workstation framework
 - 🤖 **Multi-Agent System** - Built on AgentScope for collaborative task orchestration
 - 💾 **Persistent Memory** - ReMe module enables long-term experience retention
 - 🔌 **Extensible Skills** - Python-based modular skill system
-- 🌐 **Omni-Channel** - Unified access across DingTalk, Lark, QQ, Discord, iMessage
+- 🌐 **Omni-Channel** - Unified access across DingTalk, Lark, QQ, Discord, iMessage, **Telegram**
 - 🔒 **Privacy-First** - Local model support with full data sovereignty
 - ☁️ **Cloud-Native** - One-click deployment to cloud platforms
 
@@ -45,6 +45,31 @@ copaw app
 
 Access the web console at: **http://127.0.0.1:8088/**
 
+### Quick Telegram Setup
+
+Want to use CoPaw on Telegram? (5 minutes)
+
+```bash
+# 1. Create bot via @BotFather in Telegram
+# 2. Install dependencies
+pip install python-telegram-bot==20.7
+
+# 3. Add to ~/.copaw/config.yaml
+# channels:
+#   telegram:
+#     enabled: true
+#     bot_token: "YOUR_BOT_TOKEN"
+#     mode: "polling"
+#     allow_all_users: true
+
+# 4. Start CoPaw
+copaw app
+
+# 5. Chat with your bot on Telegram!
+```
+
+See [Telegram Channel Guide](docs/channels/telegram/README.md) for complete setup.
+
 ---
 
 ## 📚 Documentation Structure
@@ -66,7 +91,7 @@ Access the web console at: **http://127.0.0.1:8088/**
 
 | Feature | Description |
 |---------|-------------|
-| **Multi-Channel Support** | Native integration with DingTalk, Lark, QQ, Discord, iMessage |
+| **Multi-Channel Support** | Native integration with DingTalk, Lark, QQ, Discord, iMessage, **Telegram** |
 | **Skill Extension System** | Modular Python-based functions for custom functionality |
 | **ReMe Memory** | Persistent memory management (local/cloud) |
 | **AgentScope Runtime** | Stable execution and resource management |

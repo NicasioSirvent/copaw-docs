@@ -30,6 +30,28 @@ Complete index of all CoPaw documentation.
   - System Requirements
   - Resources and Links
 
+### Channels
+
+- [Telegram Channel](channels/telegram/README.md)
+  - Overview and Features
+  - Architecture (adapted from OpenClaw)
+  - Quick Start (5-minute setup)
+  - Detailed Setup Guide
+  - Configuration Options
+  - Advanced Features
+  - Troubleshooting
+- [Telegram Implementation](channels/telegram/telegram_channel.py)
+  - Python source code
+  - BaseChannel subclass
+  - Message handling
+- [Telegram Configuration](channels/telegram/config.yaml)
+  - Configuration templates
+  - Production examples
+- [Telegram Deployment](channels/telegram/DEPLOYMENT.md)
+  - Step-by-step deployment
+  - Docker and Systemd
+  - Cloud deployment
+
 ### Installation
 
 - [Installation Guide](installation/README.md)
@@ -194,6 +216,13 @@ copaw-docs/
 ├── LICENSE                      # Apache 2.0 License
 ├── .gitignore                   # Git ignore rules
 ├── docs/
+│   ├── channels/
+│   │   └── telegram/
+│   │       ├── README.md        # Telegram channel guide
+│   │       ├── telegram_channel.py  # Python implementation
+│   │       ├── config.yaml      # Configuration templates
+│   │       ├── requirements.txt # Dependencies
+│   │       └── DEPLOYMENT.md    # Deployment guide
 │   ├── installation/
 │   │   └── README.md            # Installation guide
 │   ├── configuration/
@@ -203,10 +232,12 @@ copaw-docs/
 │   ├── skills/
 │   │   └── README.md            # Skills development guide
 │   ├── use-cases/
-│   │   └── README.md            # Use cases and examples
+│   │   ├── README.md            # Use cases overview
+│   │   └── BUSINESS-RESEARCH-PERSONAL.md  # Comprehensive use cases
 │   └── faq/
 │       └── README.md            # FAQ and troubleshooting
-└── INDEX.md                     # This file
+├── docs/INDEX.md                # This file (detailed index)
+└── docs/OVERVIEW.md             # Visual overview
 ```
 
 ---
