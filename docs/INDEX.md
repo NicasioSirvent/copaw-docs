@@ -29,6 +29,17 @@ Complete index of all CoPaw documentation.
   - System Requirements
   - Resources and Links
 
+### Framework Comparison
+
+- [AgentScope vs qwen-agent](AGENTSCOPE-VS-QWEN-AGENT.md)
+  - Overview
+  - Quick Comparison Table
+  - Detailed Feature Comparison
+  - Architecture Comparison
+  - When to Use Which
+  - How They Work Together
+  - Relationship to CoPaw
+
 ### Channels
 
 - [Telegram Channel](channels/telegram/README.md)
@@ -259,6 +270,7 @@ copaw-docs/
 | Create a skill | [Skills Guide](skills/README.md) |
 | Find examples | [Use Cases](use-cases/README.md) |
 | Fix an error | [FAQ](faq/README.md) |
+| Understand frameworks | [AgentScope vs qwen-agent](AGENTSCOPE-VS-QWEN-AGENT.md) |
 
 ---
 

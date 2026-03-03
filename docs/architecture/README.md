@@ -7,6 +7,7 @@ This document provides a comprehensive overview of CoPaw's architecture, compone
 ## Table of Contents
 
 - [Architecture Overview](#architecture-overview)
+- [Framework Relationships](#framework-relationships)
 - [Core Components](#core-components)
 - [System Design](#system-design)
 - [Data Flow](#data-flow)
@@ -17,6 +18,45 @@ This document provides a comprehensive overview of CoPaw's architecture, compone
 ## Architecture Overview
 
 CoPaw is built on a **three-layer middleware architecture** that transforms raw LLM capabilities into proactive, personalized assistants:
+
+---
+
+## Framework Relationships
+
+CoPaw is part of Alibaba's broader agent ecosystem:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Alibaba Agent Ecosystem                         │
+│                                                              │
+│  ┌──────────────────┐        ┌──────────────────┐           │
+│  │   qwen-agent     │        │    AgentScope    │           │
+│  │                  │        │                  │           │
+│  │  • Qwen-optimized│        │  • Multi-agent   │           │
+│  │  • Function Call │        │  • Orchestration │           │
+│  │  • Code Interpreter    │  • Production     │           │
+│  │  • RAG (1M tokens)     │  • Deployment     │           │
+│  │  • Qwen Chat backend │  • CoPaw backend  │           │
+│  └──────────────────┘        └────────┬─────────┘           │
+│                                       │                      │
+│                                       ▼                      │
+│                              ┌──────────────────┐           │
+│                              │      CoPaw       │           │
+│                              │                  │           │
+│                              │  • Channels      │           │
+│                              │  • Skills        │           │
+│                              │  • Memory (ReMe) │           │
+│                              │  • Web Console   │           │
+│                              └──────────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Key Points:**
+- **CoPaw** is built on **AgentScope** (multi-agent framework)
+- **AgentScope** and **qwen-agent** are **complementary** (can be used together)
+- **qwen-agent** is Qwen-optimized for single-agent applications
+
+For detailed comparison, see [AgentScope vs qwen-agent](AGENTSCOPE-VS-QWEN-AGENT.md).
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
